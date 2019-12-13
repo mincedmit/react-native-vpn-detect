@@ -1,6 +1,6 @@
 # react-native-vpn-detect
 
-A React Native wrapper to determine if the current network connection is on a VPN.
+A React Native wrapper to determine if the current iOS network connection is on a VPN (NetInfo supplies this for Android).
 
 ## Installation
 
