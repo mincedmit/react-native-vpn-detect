@@ -1,36 +1,43 @@
 #import "RNVPNDetect.h"
 
 @implementation RNVPNDetect
-
-- (instancetype)init
 {
-    self = [super init];
-    return self;
+  bool hasListeners;
 }
 
-- (dispatch_queue_t)methodQueue
-{
-    return dispatch_get_main_queue();
+-(void)startObserving {
+    hasListeners = YES;
 }
 
-+ (BOOL)requiresMainQueueSetup
-{
-    return YES;
+-(void)stopObserving {
+    hasListeners = NO;
 }
 
-RCT_EXPORT_MODULE()
+- (NSArray<NSString *> *)supportedEvents
+{
+  return @[@"RNVPNDetect.vpnStateDidChange"];
+}
 
-RCT_EXPORT_METHOD(isVPN:(NSDictionary *)options callback: (RCTResponseSenderBlock)callback)
+RCT_EXPORT_MODULE();
+
+RCT_EXPORT_METHOD(isVPNConnected)
 {
     CFDictionaryRef cfDict = CFNetworkCopySystemProxySettings();
     NSDictionary *nsDict = (__bridge NSDictionary*)cfDict;
     NSDictionary *keys = [nsDict valueForKey:@"__SCOPED__"];
+    __block BOOL isVpnConnected = nil;
+
     for (id key in keys) {
         if ([@"tap" isEqual: key] || [@"tun" isEqual: key] || [@"ppp" isEqual: key] || [@"ipsec" isEqual: key] || [@"ipsec0" isEqual: key] || [key containsString: @"utun"] ) {
-            callback(@[@YES]);
+            isVpnConnected = YES;
+        } else {
+          isVpnConnected = NO;
         }
     }
-    callback(@[@NO]);
-}
 
+    if (hasListeners) {
+        [self sendEventWithName:@"RNVPNDetect.vpnStateDidChange" body:@(isVpnConnected)];
+    }
+}
 @end
+
