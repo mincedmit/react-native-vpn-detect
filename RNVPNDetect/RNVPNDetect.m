@@ -54,8 +54,6 @@ RCT_EXPORT_MODULE();
     return isConnected;
 }
 
-RCT_EXPORT_MODULE();
-
 RCT_EXPORT_METHOD(startTimer:(NSTimeInterval)timerInterval)
 {
     NSLog(@"%@", [NSDecimalNumber numberWithDouble:timerInterval]);
