@@ -18,7 +18,8 @@ import { ..., NativeEventEmitter } from "react-native";
 import RNVPNDetect from "react-native-vpn-detect";
 ```
 
-Setup:
+## Setup:
+
 in componentDidMount, instantiate a new NativeEventEmitter, passing in RNVPNDetect. 
 
 ```
@@ -39,8 +40,8 @@ RootContainer._iosVpnDetectSubscribe = RNVPNDetectEmitter.addListener(
 ```
 
 RNVPNDetect can be used in two ways: 
-- 1. Using a timer, which will check for a change in the VPN state at the provided interval, and send an event IF the state has changed 
-- 2. Manually asking for the current vpn state
+- Using a timer, which will check for a change in the VPN state at the provided interval, and send an event IF the state has changed 
+- Manually asking for the current vpn state
 
 ## Use Timer
 
@@ -74,5 +75,18 @@ After following the steps above, you can manually query the current vpn state by
 RNVPNDetect.checkIsVpnConnected()
 ```
 
-This will check the current vpn state and trigger the listener you set up in componentDidMount
+This will check the current vpn state and trigger the listener you set up in ```componentDidMount```.
+
+You should still unsubscribe from the listener on unmount, but you can skip the ```stopTimer``` call if you never started one ;)
+
+```
+componentDidUnmount {
+  ...
+  if (RootContainer._iosVpnDetectSubscribe) {
+    RootContainer._iosVpnDetectSubscribe.remove();
+    RootContainer._iosVpnDetectSubscribe = null;
+  }
+}
+
+```
 
