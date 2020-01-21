@@ -7,6 +7,8 @@
   NSTimer *timer;
 }
 
+RCT_EXPORT_MODULE();
+
 -(void)startObserving {
     hasListeners = YES;
 }
@@ -29,7 +31,9 @@
     
     isVpnConnected = nextIsVpnConnected;
     if (hasListeners) {
-        [self sendEventWithName:@"RNVPNDetect.vpnStateDidChange" body:@(isVpnConnected)];
+        if ([self bridge] != nil) {
+            [self sendEventWithName:@"RNVPNDetect.vpnStateDidChange" body:@(isVpnConnected)];
+        }
     }
 }
 
@@ -81,7 +85,9 @@ RCT_EXPORT_METHOD(checkIsVpnConnected)
     isVpnConnected = [self isVpnConnected];
     
     if (hasListeners) {
-        [self sendEventWithName:@"RNVPNDetect.vpnStateDidChange" body:@(isVpnConnected)];
+        if ([self bridge] != nil) {
+            [self sendEventWithName:@"RNVPNDetect.vpnStateDidChange" body:@(isVpnConnected)];
+        }
     }
 }
 @end
