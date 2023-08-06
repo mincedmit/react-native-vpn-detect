@@ -1,3 +1,6 @@
-import { NativeModules } from "react-native";
 
-export default NativeModules.RNVPNDetect;
+import { NativeModules } from 'react-native';
+
+const { RNNativeVpnDetect } = NativeModules;
+
+export default RNNativeVpnDetect;
