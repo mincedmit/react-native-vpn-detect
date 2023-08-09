@@ -26,7 +26,7 @@
     "url": "https://www.buymeacoffee.com/kzlsn"
   },
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "react-native": "*"
   },
   "homepage": "https://github.com/kzlsnn/react-native-vpn-detect"
