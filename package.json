@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "react-native": "0.72.3"
+    "react-native": "^0.70.0"
   },
   "homepage": "https://github.com/kzlsnn/react-native-vpn-detect"
 }
