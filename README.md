@@ -1,92 +1,50 @@
+
 # react-native-vpn-detect
+<a href="https://www.buymeacoffee.com/kzlsn" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-A React Native wrapper to determine if the current iOS network connection is on a VPN (NetInfo supplies this for Android).
+## Getting started
 
-## Installation
+`$ npm install react-native-vpn-detect --save`
 
-```bash
-npm i --save react-native-vpn-detect # npm syntax
-yarn add react-native-vpn-detect # yarn syntax
-```
-then enter the `ios` directory and run `pod install` to link the pod to your React Native project.
+### Mostly automatic installation
+
+`$ react-native link react-native-vpn-detect`
+
+### Manual installation
+
+
+#### iOS
+
+1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+2. Go to `node_modules` ➜ `react-native-vpn-detect` and add `RNNativeVpnDetect.xcodeproj`
+3. In XCode, in the project navigator, select your project. Add `libRNNativeVpnDetect.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+4. Run your project (`Cmd+R`)<
+
+#### Android
+
+1. Open up `android/app/src/main/java/[...]/MainActivity.java`
+  - Add `import com.reactlibrary.RNNativeVpnDetectPackage;` to the imports at the top of the file
+  - Add `new RNNativeVpnDetectPackage()` to the list returned by the `getPackages()` method
+2. Append the following lines to `android/settings.gradle`:
+  	```
+  	include ':react-native-vpn-detect'
+  	project(':react-native-vpn-detect').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-vpn-detect/android')
+  	```
+3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+  	```
+      compile project(':react-native-vpn-detect')
+  	```
+
 
 ## Usage
+```javascript
+* Import Library
+import Security from "react-native-vpn-detect";
 
-Import the library along with the NativeEventEmitter exported from React Native:
-```
-import { ..., NativeEventEmitter } from "react-native";
-import RNVPNDetect from "react-native-vpn-detect";
-```
-
-## Setup:
-
-in componentDidMount, instantiate a new NativeEventEmitter, passing in RNVPNDetect. 
-
-```
-const RNVPNDetectEmitter = new NativeEventEmitter(RNVPNDetect);
-
-```
-
-Then, add a listener to the EventEmitter instance, and make sure to store it somewhere globally available on the component (e.g. instance variable) so you can unsubscribe from it later.
-
-The listener should take: ```"RNVPNDetect.vpnStateDidChange"``` as the event name to listen to, and a handler of your choosing as the second argument.
-
-```
-RootContainer._iosVpnDetectSubscribe = RNVPNDetectEmitter.addListener(
-  "RNVPNDetect.vpnStateDidChange",
-  this._handleVpnStateChanged
-);
-
-```
-
-RNVPNDetect can be used in two ways: 
-- Using a timer, which will check for a change in the VPN state at the provided interval, and send an event IF the state has changed 
-- Manually asking for the current vpn state
-
-## Use Timer
-
-After following the setup steps above:
-
-You can then initialize the timer with an interval of your choosing. It defaults to 3s (3000ms) if nothing is passed in.
-
-```
-RNVPNDetect.startTimer(5000)
-```
-
-Make sure to unsubscribe from the listener when your component unmounts.
-
-```
-componentDidUnmount {
-  ...
-  if (RootContainer._iosVpnDetectSubscribe) {
-    RootContainer._iosVpnDetectSubscribe.remove();
-    RootContainer._iosVpnDetectSubscribe = null;
-    RNVPNDetect.stopTimer();
-  }
+* Example Usage
+async function checkSecurity() {
+	let detectVPN = await Security.detectVPN().then(response => { return response });
+	let detectProxy = await Security.detectProxy().then(response => { return response });
 }
-
+checkSecurity();
 ```
-
-## Manual
-
-After following the steps above, you can manually query the current vpn state by calling:
-
-```
-RNVPNDetect.checkIsVpnConnected()
-```
-
-This will check the current vpn state and trigger the listener you set up in ```componentDidMount```.
-
-You should still unsubscribe from the listener on unmount, but you can skip the ```stopTimer``` call if you never started one ;)
-
-```
-componentDidUnmount {
-  ...
-  if (RootContainer._iosVpnDetectSubscribe) {
-    RootContainer._iosVpnDetectSubscribe.remove();
-    RootContainer._iosVpnDetectSubscribe = null;
-  }
-}
-
-```
-

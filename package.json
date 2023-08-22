@@ -1,23 +1,33 @@
 {
   "name": "react-native-vpn-detect",
-  "version": "1.0.0",
-  "description": "Checks for VPN on iOS",
-  "author": {
-    "name": "Dmitri Vasiliev",
-    "email": "dvasiliev@gagosian.com",
-    "url": "https://gagosian.com"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:mincedmit/react-native-vpn-detect.git"
+  "version": "1.0.9",
+  "description": "Checks for VPN & Proxy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "react",
     "react-native",
     "react-component",
     "ios",
+    "android",
     "vpn",
-    "network"
-  ]
+    "proxy",
+    "network",
+    "vpn-detection",
+    "proxy-detection",
+    "vpn detection",
+    "proxy detection"
+  ],
+  "author": {
+    "name": "Samet Kızılaslan",
+    "email": "sametkzl94@gmail.com",
+    "url": "https://www.buymeacoffee.com/kzlsn"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react-native": "^0.70.0"
+  },
+  "homepage": "https://github.com/kzlsnn/react-native-vpn-detect"
 }
